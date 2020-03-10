@@ -15,7 +15,6 @@ fun print(title: String, value: String) {
     println("$title: $value")
 }
 
-// for debugging
 fun Elements.printIterated() {
     this.forEachIndexed { index, element -> print(index.toString(), element) }
 }
