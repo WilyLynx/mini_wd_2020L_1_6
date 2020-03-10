@@ -24,3 +24,21 @@ panels_over_years <- grands_df %>%
 ggplot(panels_over_years, aes(x=year,y = n, color=panel, group=panel)) +
   geom_line()+
   labs(title = "Project count in panel from 2011 to 2019 ")
+
+library(glue)
+
+plot_subpanels <- function(df,panel_name)
+  df %>% 
+    group_by(subpanel,year) %>% 
+    filter(panel == panel_name) %>% 
+    summarise(n = n()) %>% 
+    ggplot(aes(x=year, y=n, color=subpanel, group=subpanel)) +
+      geom_line() +
+      labs(title = glue("Project count in {panel_name} panel from 2011 to 2019"))
+
+plot_subpanels(grands_df,"HS")
+plot_subpanels(grands_df,"NZ")
+plot_subpanels(grands_df,"ST")
+
+
+
