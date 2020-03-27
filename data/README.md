@@ -21,7 +21,7 @@ For each page the following information has been scrapped:
 
 ### grants.csv
 
-* separator: **,** (comma)
+* separator: * (asterisk)
 * list item separator: **|||** (three pipes)
 * **WARNING** problems with reading to R
 * **BUG** when coinvestigators info was not present -- HTML tag is present instread of empty string
