@@ -2,7 +2,8 @@ import org.jsoup.Jsoup
 import java.io.File
 
 const val BaseUrl = "https://projekty.ncn.gov.pl/index.php?s="
-const val Path = "grants.csv"
+const val Path = "..\\data\\grants.csv"
+const val Separator = "#"
 
 fun main() {
     scrapExisting()
@@ -10,13 +11,13 @@ fun main() {
 
 fun scrapExisting() {
     File(Path).bufferedWriter().use { out ->
-        out.write(ncnDataHeaders())
+        out.write(NcnData.headers(Separator))
         var i = 1
         while(true) {
             val data = scrapData(i)
             if (data != null) {
                 out.newLine()
-                out.write(data.toCsvRecord())
+                out.write(data.toCsvRecord(Separator))
                 println("Scrapped pages: $i")
             } else {
                 break
@@ -28,12 +29,12 @@ fun scrapExisting() {
 
 fun scrap(n: Int) {
     File(Path).bufferedWriter().use { out ->
-        out.write(ncnDataHeaders())
+        out.write(NcnData.headers(Separator))
         for (i in 1..n) {
             val data = scrapData(i)
             if (data != null) {
                 out.newLine()
-                out.write(data.toCsvRecord())
+                out.write(data.toCsvRecord(Separator))
                 println("Scrapped pages: $i")
             }
         }
