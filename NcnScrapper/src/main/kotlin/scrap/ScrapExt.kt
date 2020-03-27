@@ -1,3 +1,7 @@
+package scrap
+
+import ListItemSeparator
+import model.NcnData
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 

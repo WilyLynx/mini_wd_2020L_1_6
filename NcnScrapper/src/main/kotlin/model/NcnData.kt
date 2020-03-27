@@ -1,3 +1,5 @@
+package model
+
 import java.io.File
 import kotlin.reflect.full.memberProperties
 
@@ -64,7 +66,12 @@ data class NcnData(
         }
 
         fun readFromFile(filePath: String, sep: String): List<NcnData> {
-            return File(filePath).readLines().drop(1).map { fromRecord(it, sep) }
+            return File(filePath).readLines().drop(1).map {
+                fromRecord(
+                    it,
+                    sep
+                )
+            }
         }
     }
 }

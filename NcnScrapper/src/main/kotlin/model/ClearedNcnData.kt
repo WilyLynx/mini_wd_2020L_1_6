@@ -1,3 +1,5 @@
+package model
+
 import java.io.File
 import kotlin.reflect.full.memberProperties
 
@@ -48,7 +50,12 @@ data class ClearedNcnData(
         }
 
         fun readFromFile(filePath: String, sep: String): List<ClearedNcnData> {
-            return File(filePath).readLines().drop(1).map { fromRecord(it, sep) }
+            return File(filePath).readLines().drop(1).map {
+                fromRecord(
+                    it,
+                    sep
+                )
+            }
         }
     }
 }
