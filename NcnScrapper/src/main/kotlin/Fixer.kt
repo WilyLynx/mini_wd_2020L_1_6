@@ -1,20 +1,19 @@
-const val OldSeparator = "*"
-const val NewSeparator = "#"
-const val NewListItemSeparator = ">"
-
 fun main() {
+    val oldSeparator = ","
+    val newSeparator = Separator
     val sourcePath = "..\\data\\grants.csv"
     val resultPath = "..\\data\\grants_fixed.csv"
 
-    val data = NcnData.readFromFile(sourcePath, OldSeparator)
+    val data = NcnData.readFromFile(sourcePath, oldSeparator)
     data.forEach { fixRecord(it) }
-    NcnData.writeToFile(resultPath, NewSeparator, data)
+    NcnData.writeToFile(resultPath, newSeparator, data)
 }
 
 fun fixRecord(record: NcnData) {
+    val oldListItemSeparator = "|||"
     if (record.coinvestigators.contains("<strong>")) {
         record.coinvestigators = ""
     }
-    record.keywords = record.keywords.replace(ListItemSeparator, NewListItemSeparator)
-    record.descriptors = record.descriptors.replace(ListItemSeparator, NewListItemSeparator)
+    record.keywords = record.keywords.replace(oldListItemSeparator, ListItemSeparator)
+    record.descriptors = record.descriptors.replace(oldListItemSeparator, ListItemSeparator)
 }

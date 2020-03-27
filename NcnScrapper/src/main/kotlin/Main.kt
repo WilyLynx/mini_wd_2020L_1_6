@@ -3,7 +3,6 @@ import java.io.File
 
 const val BaseUrl = "https://projekty.ncn.gov.pl/index.php?s="
 const val Path = "..\\data\\grants.csv"
-const val Separator = "#"
 
 fun main() {
     scrapExisting()
