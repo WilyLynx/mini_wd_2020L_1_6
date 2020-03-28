@@ -1,0 +1,32 @@
+Na jakie pytania chcę odpowiedzieć: 
+- czy w tych latach, któryś konkretny miesiąc (jako typ miesiąca) nie był najlopularniejszy (liczba wniosków) 
+	- był - dokładnie 01.12.2011 (377 wniosków) 
+- czy w tych latach, któryś konkretny miesiąc (jako typ miesiąca) nie był najpopularniejszy (budżet) 
+- rozkład budżetu timeline (po latach, po miesiącach, po dniach, po kategorii lata, po kategorii miesiące, po kategorii dni)
+- rozkład ilości wniosków timeline 
+- ilość deskryptorów, a budżet (pudełkowo ?) 
+- popularność paneli (liczba wniosków w panelach) 
+- popularność subpaneli (liczba wniosków w subpanelach) 
+- popularność deskryptorów - najczęściej wybierane 
+- popularność deskryptorów - największy budżet 
+- rozkład ilości wniosków w konkursach 
+- rozkład budżetu w konkursach 
+- rozkład ilości wniosków w panelach z podziałem na konkursy 
+- rozkład budżetu w panelach z podziałem na konkursy 
+- długość paneli a budżet 
+- ilość pracowników a budżet 
+- miara budżetu (budżet/ilość pracowników/duration) - na ile to ma sens
+
+CIEKAWE WNIOSKI 
+
+Na całym zbiorze: 
+-najwięcej wniosków pojawia się w lutym (2793), lipcu(2523) i sierpniu(2509)
+-najwięcej wniosków pojawia się pierwszego dnia miesiąca (1212), gdzie w pozostałych, w tym najwięcej w pierwszego grudnia (351) - ale to przez 2011 rok 
+-najmniej wniosków pojawia się w listopadzie (93) i maju (365)  
+
+W latach 2011-2013: 
+-najwięcej wniosków startuje pierwszego dnia miesiąca, a najmniej ostatniego 
+-najwięcej wniosków w grudniu (1861)  i sierpniu(1111) a najmniej w listopadzie(10) i lutym (44)
+-najwięcej wniosków startuje 1.12 (337) - z czego wszystkie w 2011, bo w 2012 i 2013 nie wystartował już żaden 
+
+
