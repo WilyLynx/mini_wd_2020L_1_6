@@ -2,6 +2,8 @@
 library(dplyr)
 library(ggplot2)
 library(sqldf)
+library(lubridate)
+library(scales)
 
 # ====================================== FUNCTIONS =======================================
 statistics <- function(x) {
@@ -67,7 +69,12 @@ all_contests_df <- mutate(org_data,
                             strsplit(descriptors, split = "|", fixed = TRUE) %>% 
                             sapply(sort) %>%
                             sapply(unlist) %>% 
-                            sapply(paste, collapse="|")
+                            sapply(paste, collapse="|"),
+                          start = 
+                            as.Date(start),
+                          announced = 
+                            as.Date(announced)
+                          
 )
 
 
@@ -104,7 +111,7 @@ descriptors_df <- sqldf(descriptors_current_sql)
 # --------------------- WITHOUT DIVISION TO PANELS OR CONTESTS -----------------------------
 #statystyki w poszczególnych latach 
 statistics_in_years <- 
-  contests_df %>% group_by(year) %>% statistics
+  contests_df %>% group_by(year= floor_date(start, "year")) %>% statistics
 
 #statystyki w poszczególnych miesi¹cach (typ miesi¹c na przestrzeni lat)
 statistics_in_months <- 
@@ -116,7 +123,7 @@ statistics_in_days <-
 
 #statystyki w poszczególnych miesi¹cach w poszczególnych latach 
 statistics_in_years_and_months <- 
-  contests_df %>% group_by(year,month) %>%  statistics
+  contests_df %>% group_by(month = floor_date(start, "month")) %>%  statistics
 
 #statystyki w poszczególnych dniach w poszczególnych miesi¹cach (na przestrzeni lat)
 statistics_in_months_and_days <- 
@@ -124,7 +131,7 @@ statistics_in_months_and_days <-
 
 #statystyki w poszczególnych dniach w poszczególnych miesi¹cach w poszczególnych latach
 statistics_in_years_months_and_days <- 
-  contests_df %>% group_by(year,month, day) %>%  statistics
+  contests_df %>% group_by(day = floor_date(start, "day")) %>%  statistics
 
 #statystyki dla poszczególnych iloœci deskryptorów 
 statistics_descriptors_count <- 
@@ -169,3 +176,37 @@ statistics_in_duration <-
 #statystyki wniosków po iloœci osób 
 statistics_in_coinvestigators <- 
   contests_df %>% group_by(coinvestigators) %>% statistics
+
+# ====================================== WYKRESY ====================================================================
+
+#iloœæ wniosków w poszczególnych latach 
+pl_grants_count_in_years =  
+  ggplot(data = statistics_in_years,
+         aes(x = year, 
+             y = grants_count,
+             fill = year)) +
+  geom_bar(stat = "identity") +
+  scale_x_date(labels = date_format("%Y")) + 
+  labs(title = " Grants number in years", 
+       x = "Year",
+       y = "Grants count")
+
+pl_grants_count_in_years
+  
+#ca³kowity bud¿et w poszczególnych latach 
+pl_grants_budget_in_years =  
+  ggplot(data = statistics_in_years,
+         aes(x = year, 
+             y = budget_sum,
+             fill = year)) +
+  geom_bar(stat = "identity") +
+  scale_x_date(labels = date_format("%Y")) + 
+  labs(title = " Grants total budget in years", 
+       x = "Year",
+       y = "Total budget")
+
+pl_grants_budget_in_years
+
+#œredni bud¿et w poszczególnych latach 
+
+
