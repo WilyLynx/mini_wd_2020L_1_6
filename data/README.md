@@ -52,4 +52,12 @@ For each page the following information has been scrapped:
 * list item separator: **|**
 * information as for *grants_cleared.csv*
 * old descriptors mapped to current ones (starting with zeros)
+
+### descriptors.csv
+
+Deskryptory projektów z bazy Narodowego Centrum Nauki. 
+
+ - **id**: id projektu.
+ - **subpanel**: panel https://www.ncn.gov.pl/finansowanie-nauki/panele-ncn.
+ - **descriptor**: podpanel https://www.ncn.gov.pl/finansowanie-nauki/panele-ncn.
 	
