@@ -73,7 +73,13 @@ all_contests_df <- mutate(org_data,
                           start = 
                             as.Date(start),
                           announced = 
-                            as.Date(announced)
+                            as.Date(announced),
+                          year_date = 
+                            floor_date(start, "year"),
+                          month_date = 
+                            floor_date(start, "month"),
+                          day_date = 
+                            floor_date(start, "day")
                           
 )
 
@@ -180,33 +186,161 @@ statistics_in_coinvestigators <-
 # ====================================== WYKRESY ====================================================================
 
 #iloœæ wniosków w poszczególnych latach 
-pl_grants_count_in_years =  
+pl_grants_count_in_years <-  
   ggplot(data = statistics_in_years,
          aes(x = year, 
              y = grants_count,
              fill = year)) +
   geom_bar(stat = "identity") +
   scale_x_date(labels = date_format("%Y")) + 
-  labs(title = " Grants number in years", 
-       x = "Year",
-       y = "Grants count")
+  labs(title = "Iloœæ wniosków w poszczególnych latach", 
+       x = "Rok",
+       y = "Iloœæ wniosków") + 
+  theme(legend.position = "none")
 
 pl_grants_count_in_years
   
 #ca³kowity bud¿et w poszczególnych latach 
-pl_grants_budget_in_years =  
+pl_grants_budget_in_years <-
   ggplot(data = statistics_in_years,
          aes(x = year, 
-             y = budget_sum,
+             y = budget_sum/1000000,
              fill = year)) +
   geom_bar(stat = "identity") +
   scale_x_date(labels = date_format("%Y")) + 
-  labs(title = " Grants total budget in years", 
-       x = "Year",
-       y = "Total budget")
+  scale_y_continuous(labels = label_comma()) +
+  labs(title = "Ca³kowity bud¿et przeznaczony na realizacjê wniosków z poszczególnych lat", 
+       x = "Rok",
+       y = "Ca³kowity bud¿et (w mln z³)") + 
+  theme(legend.position = "none")
 
 pl_grants_budget_in_years
 
 #œredni bud¿et w poszczególnych latach 
+pl_grants_mean_budget_in_years <-  
+  ggplot(data = statistics_in_years,
+         aes(x = year, 
+             y = budget_mean,
+             fill = year)) +
+  geom_bar(stat = "identity") +
+  scale_x_date(labels = date_format("%Y")) + 
+  scale_y_continuous(labels = label_comma()) +
+  labs(title = "Œredni bud¿et przeznaczony na realizacjê wniosków z poszczególnych lat", 
+       x = "Rok",
+       y = "Œredni bud¿et") + 
+  theme(legend.position = "none")
+
+pl_grants_mean_budget_in_years
+
+#bud¿et boxplot w poszczególnych latach 
+pl_grants_budget_boxplot_in_years <-
+  ggplot(data = contests_df, 
+         aes(x = year(start),
+             y = budget/1000,
+             group = year(start))) + 
+  geom_boxplot() +
+  scale_y_log10() + 
+  labs(title = "Bud¿et wniosków w poszczególnych latach",
+       x = "Rok",
+       y = "Bud¿et w tys. z³.") + 
+  scale_x_continuous(labels = label_number(accuracy = 1, big.mark="",),
+                     breaks = unique(contests_df[["year"]]))
+  
+pl_grants_budget_boxplot_in_years
+
+#iloœæ wniosków w poszczególnych miesi¹cach 
+pl_grants_count_in_months <-  
+  ggplot(data = statistics_in_years_and_months,
+         aes(x = month, 
+             y = grants_count)) +
+  geom_line() +
+  scale_x_date(labels = date_format("%b %Y"),
+               breaks = breaks_pretty(n=10)) + 
+  labs(title = "Iloœæ wniosków w poszczególnych miesi¹cach", 
+       x = "Miesi¹c",
+       y = "Iloœæ wniosków") 
+
+pl_grants_count_in_months
+
+#ca³kowity bud¿et w poszczególnych miesi¹cach
+pl_grants_budget_in_years_and_months <-
+  ggplot(data = statistics_in_years_and_months,
+         aes(x = month,
+             y = budget_sum / 1000),
+         fill = year(month)) +
+  geom_bar(stat = "identity") +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(
+      angle = 90,
+      hjust = 0.5,
+      vjust = 0.3
+    )
+  ) +
+  scale_x_date(labels = date_format("%b %Y"),
+               breaks = unique(statistics_in_years_and_months[["month"]])) +
+  scale_y_log10(labels = label_comma(suffix = " tys z³")) +
+  
+  labs(title = "Ca³kowity bud¿et przeznaczony na realizacjê wniosków z poszczególnych miesiêcy",
+       x = "Miesi¹c",
+       y = "Ca³kowity bud¿et (w tys z³)") 
+
+pl_grants_budget_in_years_and_months
+
+#œredni bud¿et w poszczególnych miesi¹cach
+pl_grants_mean_budget_in_years_and_months <-
+  ggplot(data = statistics_in_years_and_months,
+         aes(x = month,
+             y = budget_mean)) +
+  geom_bar(stat = "identity") +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(
+      angle = 90,
+      hjust = 0.5,
+      vjust = 0.3
+    )
+  ) +
+  scale_x_date(labels = date_format("%b %Y"),
+               breaks = unique(statistics_in_years_and_months[["month"]])) +
+  scale_y_continuous(labels = label_comma(suffix = "z³")) +
+  labs(title = "Œredni bud¿et przeznaczony na realizacjê wniosków z poszczególnych miesiêcy",
+       x = "Miesi¹c",
+       y = "Œredni bud¿et")  
+  
+
+pl_grants_mean_budget_in_years_and_months
+
+#bud¿et boxplot w poszczególnych miesi¹cach 
+pl_grants_budget_boxplot_in_years_and_months <-
+  ggplot(data = contests_df, 
+         aes(x = month_date,
+             y = budget/1000,
+             group = month)) + 
+  geom_boxplot() +
+  theme(
+    legend.position = "none",
+    axis.text.x = element_text(
+      angle = 90,
+      hjust = 0.5,
+      vjust = 0.3
+    )
+  ) +
+  scale_y_log10(labels = label_comma(suffix = " tys. z³")) + 
+  scale_x_date(labels = date_format("%b"),
+               breaks = unique(contests_df[["month_date"]]))+
+  labs(title = "Bud¿et wniosków w poszczególnych miesi¹cach",
+       x = "Miesi¹c",
+       y = "Bud¿et w tys. z³.") + 
+  facet_grid(. ~ year,
+             space = "free",
+             shrink = TRUE,
+             scales="free_x")
+  
+
+pl_grants_budget_boxplot_in_years_and_months
+
+
+
 
 
