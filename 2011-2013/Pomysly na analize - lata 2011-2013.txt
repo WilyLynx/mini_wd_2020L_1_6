@@ -1,21 +1,22 @@
 Na jakie pytania chcę odpowiedzieć: 
-- czy w tych latach, któryś konkretny miesiąc (jako typ miesiąca) nie był najlopularniejszy (liczba wniosków) 
+V - czy w tych latach, któryś konkretny miesiąc (jako typ miesiąca) nie był najlopularniejszy (liczba wniosków) 
 	- był - dokładnie 01.12.2011 (377 wniosków) 
-- czy w tych latach, któryś konkretny miesiąc (jako typ miesiąca) nie był najpopularniejszy (budżet) 
-- rozkład budżetu timeline (po latach, po miesiącach, po dniach, po kategorii lata, po kategorii miesiące, po kategorii dni)
-- rozkład ilości wniosków timeline 
-- ilość deskryptorów, a budżet (pudełkowo ?) 
-- popularność paneli (liczba wniosków w panelach) 
-- popularność subpaneli (liczba wniosków w subpanelach) 
-- popularność deskryptorów - najczęściej wybierane 
-- popularność deskryptorów - największy budżet 
-- rozkład ilości wniosków w konkursach 
-- rozkład budżetu w konkursach 
-- rozkład ilości wniosków w panelach z podziałem na konkursy 
-- rozkład budżetu w panelach z podziałem na konkursy 
-- długość paneli a budżet 
-- ilość pracowników a budżet 
-- miara budżetu (budżet/ilość pracowników/duration) - na ile to ma sens
+V - czy w tych latach, któryś konkretny miesiąc (jako typ miesiąca) nie był najpopularniejszy (budżet) 
+V - rozkład budżetu timeline (po latach, po miesiącach, po dniach, po kategorii lata, po kategorii miesiące, po kategorii dni)
+V - rozkład ilości wniosków timeline 
+V - ilość deskryptorów, a budżet (pudełkowo ?) 
+V - popularność paneli (liczba wniosków w panelach) 
+V - popularność subpaneli (liczba wniosków w subpanelach) 
+V - popularność deskryptorów - najczęściej wybierane 
+V - popularność deskryptorów - największy budżet 
+V - rozkład ilości wniosków w konkursach 
+V - rozkład budżetu w konkursach
+V - popularność deskryptorów w konkursach 
+V - rozkład ilości wniosków w panelach z podziałem na konkursy 
+V - rozkład budżetu w panelach z podziałem na konkursy 
+V - długość projektu a budżet 
+V - ilość pracowników a budżet 
+V - miara budżetu (budżet/ilość pracowników/duration) - na ile to ma sens
 
 CIEKAWE WNIOSKI 
 
