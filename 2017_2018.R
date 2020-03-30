@@ -11,6 +11,18 @@ data <- mutate(data, subpanel = panel,
                  sapply(first)) %>% 
   filter(announced_year %in% c(2017, 2018))
 
+mean_budget_per_contest <- data %>% 
+  group_by(contest, announced_year) %>% 
+  summarise(mean_budget = mean(budget), number = n()) %>% 
+  ggplot(aes(x = number, y = mean_budget, label = contest)) +
+  geom_point() +
+  geom_label() +
+  xlab('Number of projects') +
+  ylab('Mean budget') +
+  facet_wrap(~announced_year)
+
+mean_budget_per_contest
+
 count_plot <- data %>% 
   ggplot(aes(x = contest, fill = panel)) + 
   geom_bar() +
