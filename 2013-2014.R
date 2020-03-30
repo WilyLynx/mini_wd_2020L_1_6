@@ -4,7 +4,7 @@ library(ggplot2)
 
 grants <-
   read_delim(
-    "./data/grants.csv",
+    "C:/Users/Łukasz/Desktop/wizualizacja danych/grants.csv",
     "@",
     escape_double = FALSE,
     col_types = cols(
@@ -134,8 +134,3 @@ data_global_number_budget_change <- data_global %>% select("id","panel","contest
   summarise(number=n(), mean_budget=mean(budget))
 
 data_global_number_budget_change %>%  ggplot(aes(x=number,y=mean_budget,label = subpanel, color=panel)) +geom_point() +   geom_label(size = 10)
-
-
-#subpanele 
-
-data_global_number_budget_change <- data_global 
