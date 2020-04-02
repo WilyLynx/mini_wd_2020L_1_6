@@ -54,7 +54,9 @@ mean_budget_per_month %>% ggplot(aes(x=month,y=mean_budget/1000,color = panel, g
   ylab("Średni budżet") +
   xlab("Miesiąc") +
   scale_y_continuous(labels = label_comma(suffix = " tys. zł")) +
-  guides(color=guide_legend(title="Panel"))
+  guides(color=guide_legend(title="Panel"))+ 
+  scale_x_discrete(labels = c("01" = "Sty", "02" = "Lut", "03" = "Mar", "04" = "Kwi", "05" = "Maj", "06" = "Cze", 
+                              "07" = "Lip", "08" = "Sie", "09" = "Wrz", "10" = "Paź", "11" = "Lis", "12" = "Gru"))
 
 #3
 data_global_number_change <- grants_mapped %>% select("panel","start","contest","budget") %>%
