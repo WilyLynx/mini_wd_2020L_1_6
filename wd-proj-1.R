@@ -36,7 +36,7 @@ data_bar_descriptors_per_panel %>%  ggplot(aes(x=start,y=budget_with_inflation/1
   guides(color=guide_legend(title="Liczba deskryptorów")) +
   scale_color_manual(values=c("#9D47B3", "#D49837",'#0D9E61')) +
   scale_y_continuous(labels = label_comma(suffix = " tys. zł"))
-
+ggsave(filename="../plots/plot1.svg")
 
 #2
 mean_budget_per_month <- grants_mapped %>% select("start","panel","budget") %>%
@@ -57,6 +57,7 @@ mean_budget_per_month %>% ggplot(aes(x=month,y=mean_budget/1000,color = panel, g
   guides(color=guide_legend(title="Panel"))+ 
   scale_x_discrete(labels = c("01" = "Sty", "02" = "Lut", "03" = "Mar", "04" = "Kwi", "05" = "Maj", "06" = "Cze", 
                               "07" = "Lip", "08" = "Sie", "09" = "Wrz", "10" = "Paź", "11" = "Lis", "12" = "Gru"))
+ggsave(filename="../plots/plot2.svg")
 
 #3
 data_global_number_change <- grants_mapped %>% select("panel","start","contest","budget") %>%
@@ -71,7 +72,7 @@ data_global_number_change %>% ggplot(aes(x = start, y=mean_budget / 1000, group 
   xlab("Rok") + 
   ylab("Średni budżet") +
   guides(color=guide_legend(title="Panel"))
-
+ggsave(filename="../plots/plot3.svg")
 #4
 
 grants_mapped %>% 
@@ -84,14 +85,14 @@ grants_mapped %>%
     )
   ) %>% 
   ggplot(aes(x=budget))+
-  geom_histogram(aes(fill=..count..),bins=45)+ 
-  scale_fill_gradient(low="blue", high="red")+
-  xlab("log10(Budżet)")+
+  geom_histogram(aes(fill=..count..,color="black"),bins=45)+ 
+  scale_fill_gradient(low = "white", high = "brown")+
+  xlab("Budżet")+
   ylab("Liczba projektów")+
   scale_x_continuous(breaks=c(4.301,4.6989,5,5.301,5.6989,6, 6.3979),
                      labels=c("20 tys. zł","50 tys. zł", "100 tys. zł","200 tys. zł","500 tys. zł", "1 mln zł", "2.5 mln zł"))+
-  guides(fill=FALSE)
-
+  guides(fill=FALSE, color=FALSE)
+ggsave(filename="../plots/plot4.svg")
 #5
 
 mean_budget_per_month <- grants_mapped %>% select("contest","panel","budget") %>%
@@ -105,7 +106,7 @@ mean_budget_per_month %>% ggplot(aes(x=contest,y=number,fill = panel)) +
   xlab("Konkurs")+
   ylab("Liczba grantów") +
   guides(fill=guide_legend(title="Panel"))
-
+ggsave(filename="../plots/plot5.svg")
 
 #6
 mean_budget_per_month <- grants_mapped %>% select("contest","panel","budget") %>%
@@ -121,7 +122,7 @@ mean_budget_per_month %>% ggplot(aes(x=contest,y=mean_budget/1e6,fill = panel)) 
   scale_y_continuous(labels = label_comma(suffix = " mln zł")) +
   guides(fill=guide_legend(title="Panel"))
   
-  
+ggsave(filename="../plots/plot6.svg")
 
 #7
 
@@ -153,7 +154,9 @@ mean_budget_per_month %>%
   labs(title="TOP 20 deskryptorów występujących w grantach panelu HS", subtitle = "pod względem średniego budżetu")+
   guides(fill=guide_legend(title="Panel"))
 
+ggsave(filename="../plots/plot7.svg")
 
+#8
 mean_budget_per_month %>% 
   filter(panel == "ST")%>% 
   ggplot(aes(x=reorder(descriptors,mean_budget,sum),
@@ -167,6 +170,9 @@ mean_budget_per_month %>%
   labs(title="TOP 20 deskryptorów występujących w grantach panelu ST", subtitle = "pod względem średniego budżetu")+
   guides(fill=guide_legend(title="Panel"))
 
+ggsave(filename="../plots/plot8.svg")
+
+#9
 mean_budget_per_month %>% 
   filter(panel == "NZ")%>% 
   ggplot(aes(x=reorder(descriptors,mean_budget,sum),
@@ -180,7 +186,9 @@ mean_budget_per_month %>%
   labs(title="TOP 20 deskryptorów występujących w grantach panelu NZ", subtitle = "pod względem średniego budżetu")+
   guides(fill=guide_legend(title="Panel"))
 
-#8
+ggsave(filename="../plots/plot9.svg")
+
+#10
 
 mean_budget_per_month <- grants_mapped2 %>% select("contest","subpanel", "panel","budget") %>%
   filter(contest %in% c('OPUS','SONATA','SONATABIS','PRELUDIUM','MAESTRO','HARMONIA','FUGA','ETIUDA')) %>% 
@@ -203,3 +211,5 @@ mean_budget_per_month %>% ggplot(aes(x=contest,y=mean_budget/1e6, group=subpanel
   scale_y_continuous(labels = label_comma(suffix = " mln zł"))+
   xlab("Konkurs")+
   guides(fill=guide_legend(title="Panel"))
+
+ggsave(filename="../plots/plot10.svg")
