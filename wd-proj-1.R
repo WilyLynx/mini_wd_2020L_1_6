@@ -13,7 +13,7 @@ inflation <- data.frame(
   )
 
 month_shortcut <- c("Sty", "Lut", "Mar", "Kwi", "Maj", "Cze", "Lip", "Sie", "Wrz", "Paź", "Lis", "Gru")
-grants_mapped <- read_csv("C:/Users/Łukasz/Desktop/wizualizacja danych/grants_mapped.csv", 
+grants_mapped <- read_csv("./grants_mapped.csv", 
                           col_types = cols(announced = col_date(format = "%Y-%m-%d"), 
                                            start = col_date(format = "%Y-%m-%d")))
 
@@ -64,8 +64,25 @@ data_global_number_change <- grants_mapped %>% select("panel","start","contest",
 
 data_global_number_change %>% ggplot(aes(x = start, y=mean_budget, group = panel , color = panel)) +  geom_line(size=1.2)  + geom_point()
 
-#4 nie ma
+#4
 
+grants_mapped %>% 
+  mutate(
+    budget = log10(budget),
+    panel_color = case_when(
+      panel == "HS" ~ "red",
+      panel == "ST" ~ "blue",
+      panel == "NZ" ~ "green",
+    )
+  ) %>% 
+  ggplot(aes(x=budget))+
+  geom_histogram(aes(fill=..count..),bins=45)+ 
+  scale_fill_gradient(low="blue", high="red")+
+  xlab("log10(Budżet)")+
+  ylab("Liczba projektów")+
+  scale_x_continuous(breaks=c(4.301,4.6989,5,5.301,5.6989,6, 6.3979),
+                     labels=c("20 tys. zł","50 tys. zł", "100 tys. zł","200 tys. zł","500 tys. zł", "1 mln zł", "2.5 mln zł"))+
+  guides(fill=FALSE)
 
 #5
 
@@ -76,7 +93,10 @@ mean_budget_per_month <- grants_mapped %>% select("contest","panel","budget") %>
 
 mean_budget_per_month %>% ggplot(aes(x=contest,y=number,fill = panel)) + 
   coord_flip() +
-  geom_bar(position ="dodge" ,stat = "identity")
+  geom_bar(position ="dodge" ,stat = "identity")+
+  xlab("Konkurs")+
+  ylab("Liczba grantów") +
+  guides(fill=guide_legend(title="Panel"))
 
 
 #6
@@ -85,37 +105,76 @@ mean_budget_per_month <- grants_mapped %>% select("contest","panel","budget") %>
   summarise(number=n(), mean_budget=mean(budget)) %>% 
   top_n(8,number)
 
-mean_budget_per_month %>% ggplot(aes(x=contest,y=mean_budget,fill = panel)) + 
+mean_budget_per_month %>% ggplot(aes(x=contest,y=mean_budget/1e6,fill = panel)) + 
   coord_flip() +
-  geom_bar(position ="dodge" ,stat = "identity")
+  geom_bar(position ="dodge" ,stat = "identity")+
+  xlab("Konkurs")+
+  ylab("Średni budżet")+
+  scale_y_continuous(labels = label_comma(suffix = " mln zł")) +
+  guides(fill=guide_legend(title="Panel"))
+  
   
 
 #7
 
-
-grants_mapped <- read_csv("C:/Users/Łukasz/Desktop/wizualizacja danych/grants_mapped.csv", 
+grants_mapped2 <- read_csv("./grants_mapped.csv", 
                           col_types = cols(announced = col_date(format = "%Y-%m-%d"), 
                                            start = col_date(format = "%Y-%m-%d")))
 
-grants_mapped <- grants_mapped %>% mutate(subpanel = panel, panel =substr(panel,0,2))
+grants_mapped2 <- grants_mapped2 %>% mutate(subpanel = panel, panel =substr(panel,0,2))
 
-grants_mapped <- grants_mapped %>% mutate( descriptors= strsplit(descriptors,"\\|"),) %>% unnest(c(descriptors)) 
+grants_mapped2 <- grants_mapped2 %>% mutate( descriptors= strsplit(descriptors,"\\|"),) %>% unnest(c(descriptors)) 
 
-mean_budget_per_month <- grants_mapped %>% select("contest","descriptors", "panel","budget") %>%
+mean_budget_per_month <- grants_mapped2 %>% select("contest","descriptors", "panel","budget") %>%
   group_by(panel,descriptors) %>%  
   summarise(mean_budget=mean(budget)) %>% 
   arrange(desc(mean_budget) ) %>% 
   top_n(20,mean_budget) %>% 
   mutate(desc_panel = substr(descriptors,0,2))
 
-mean_budget_per_month %>% ggplot(aes(x=descriptors,y=mean_budget,fill=desc_panel)) + 
+mean_budget_per_month %>% 
+  filter(panel == "HS")%>% 
+  ggplot(aes(x=reorder(descriptors,mean_budget,sum),
+                                     y=mean_budget/1e6,fill=desc_panel)) + 
   coord_flip() +
-  geom_bar(position ="dodge" ,stat = "identity") +
-  facet_wrap(~panel,scales="free")
+  geom_bar(position ="dodge" ,stat = "identity")+
+  ylab("Średni budżet")+
+  scale_y_continuous(labels = label_comma(suffix = " mln zł"))+
+  xlab("Deskryptor")+
+  scale_fill_manual(values=c("#00ba38", "#619cff"))+
+  labs(title="TOP 20 deskryptorów występujących w grantach panelu HS", subtitle = "pod względem średniego budżetu")+
+  guides(fill=guide_legend(title="Panel"))
+
+
+mean_budget_per_month %>% 
+  filter(panel == "ST")%>% 
+  ggplot(aes(x=reorder(descriptors,mean_budget,sum),
+             y=mean_budget/1e6,fill=desc_panel)) + 
+  coord_flip() +
+  geom_bar(position ="dodge" ,stat = "identity")+
+  ylab("Średni budżet")+
+  scale_y_continuous(labels = label_comma(suffix = " mln zł"))+
+  xlab("Deskryptor")+
+  scale_fill_manual(values=c("#00ba38", "#619cff"))+
+  labs(title="TOP 20 deskryptorów występujących w grantach panelu ST", subtitle = "pod względem średniego budżetu")+
+  guides(fill=guide_legend(title="Panel"))
+
+mean_budget_per_month %>% 
+  filter(panel == "NZ")%>% 
+  ggplot(aes(x=reorder(descriptors,mean_budget,sum),
+             y=mean_budget/1e6,fill=desc_panel)) + 
+  coord_flip() +
+  geom_bar(position ="dodge" ,stat = "identity")+
+  ylab("Średni budżet")+
+  scale_y_continuous(labels = label_comma(suffix = " mln zł"))+
+  xlab("Deskryptor")+
+  scale_fill_manual(values=c("#f8766d","#00ba38", "#619cff"))+
+  labs(title="TOP 20 deskryptorów występujących w grantach panelu NZ", subtitle = "pod względem średniego budżetu")+
+  guides(fill=guide_legend(title="Panel"))
 
 #8
 
-mean_budget_per_month <- grants_mapped %>% select("contest","subpanel", "panel","budget") %>%
+mean_budget_per_month <- grants_mapped2 %>% select("contest","subpanel", "panel","budget") %>%
   filter(contest %in% c('OPUS','SONATA','SONATABIS','PRELUDIUM','MAESTRO','HARMONIA','FUGA','ETIUDA')) %>% 
   group_by(contest,subpanel) %>%  
   summarise(mean_budget=mean(budget)) %>% 
@@ -127,8 +186,12 @@ mean_budget_per_month <- grants_mapped %>% select("contest","subpanel", "panel",
            panel == "NZ" ~ "green",
          ))
 
-mean_budget_per_month %>% ggplot(aes(x=contest,y=mean_budget, group=subpanel, fill=panel, label=subpanel)) + 
+mean_budget_per_month %>% ggplot(aes(x=contest,y=mean_budget/1e6, group=subpanel, fill=panel, label=subpanel)) + 
   coord_flip() +
   geom_bar(width = 0.8, position =position_dodge(width = 1) ,stat = "identity") +
-  geom_text(size=3, position = position_dodge(width = 1)) +
-  scale_fill_manual(values=c("#00ba38", "#619cff"))
+  geom_text(size=3, position = position_dodge2(width = 1)) +
+  scale_fill_manual(values=c("#00ba38", "#619cff"))+
+  ylab("Średni budżet")+
+  scale_y_continuous(labels = label_comma(suffix = " mln zł"))+
+  xlab("Konkurs")+
+  guides(fill=guide_legend(title="Panel"))
