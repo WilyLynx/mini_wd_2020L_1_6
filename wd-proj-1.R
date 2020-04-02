@@ -64,7 +64,13 @@ data_global_number_change <- grants_mapped %>% select("panel","start","contest",
   group_by(panel,start) %>%  
   summarise(mean_budget=mean(budget))
 
-data_global_number_change %>% ggplot(aes(x = start, y=mean_budget, group = panel , color = panel)) +  geom_line(size=1.2)  + geom_point()
+data_global_number_change %>% ggplot(aes(x = start, y=mean_budget / 1000, group = panel , color = panel)) + 
+  geom_line(size=1.2) + 
+  geom_point() +
+  scale_y_continuous(labels = label_comma(suffix = " tys. zł")) +
+  xlab("Rok") + 
+  ylab("Średni budżet") +
+  guides(color=guide_legend(title="Panel"))
 
 #4
 
