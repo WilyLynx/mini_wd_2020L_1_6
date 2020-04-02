@@ -229,7 +229,8 @@ data_global_mean_contest_budget %>%  ggplot(aes(x=number,y=mean_budget/1000,colo
   scale_x_log10()+
   xlab("Liczba projektów") +
   ylab("Średni budżet") +
-  theme(legend.key.height=unit(3,"line"))
+  theme(legend.key.height=unit(3,"line"))+
+  guides(shape=FALSE,color=guide_legend(title="Panel"))
 
 ggsave(filename="../plots/plot11.svg")
 
