@@ -141,7 +141,7 @@ data_global_number_change %>%
   guides(color=guide_legend(title="Panel"))+
   theme_wd1()
 
-ggsave(filename="../plots/plot1.svg",
+ggsave(filename="../plots/plot4.svg",
        width = 185,
        height = 130,
        units = "mm")
